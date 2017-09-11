@@ -2,7 +2,7 @@ FROM golang:alpine
 
 WORKDIR /go/src/app
 
-COPY . .
+COPY ./main.go ./main.go
 
 RUN apk update && apk add git
 

@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	http.HandleFunc("/", foo)
+	http.HandleFunc("/", loadMySQL)
 
 	log.Println("Start server...")
 	log.Println(http.ListenAndServe(":8080", nil))
@@ -21,7 +22,13 @@ func foo(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadMySQL(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/tryumph")
+	var (
+		mysqlHost = os.Getenv("DB_HOST")
+		mysqlUser = os.Getenv("DB_USER")
+		mysqlPass = os.Getenv("DB_PASSWORD")
+	)
+	diarect := fmt.Sprintf("%s:%s@tcp(%s)/tranz_db", mysqlUser, mysqlPass, mysqlHost)
+	db, err := sql.Open("mysql", diarect)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
@@ -45,6 +52,7 @@ func loadMySQL(w http.ResponseWriter, r *http.Request) {
 		scanArgs[i] = &values[i]
 	}
 
+	var result string
 	for rows.Next() {
 		if err := rows.Scan(scanArgs...); err != nil {
 			http.Error(w, err.Error(), 500)
@@ -57,10 +65,10 @@ func loadMySQL(w http.ResponseWriter, r *http.Request) {
 			} else {
 				val = string(col)
 			}
-			fmt.Println(columns[i], ": ", val)
-			fmt.Println("-------------------------------------")
+			result += fmt.Sprintln(columns[i], ": ", val)
+			result += fmt.Sprintln("-------------------------------------")
 		}
 	}
 
-	w.Write([]byte("Success!!"))
+	w.Write([]byte(result))
 }
