@@ -1,0 +1,8 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: go-sample-ingress
+spec:
+  backend:
+    serviceName: go-sample-nodeport
+    servicePort: 80
