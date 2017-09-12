@@ -6,19 +6,26 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
 	http.HandleFunc("/", loadMySQL)
+	http.HandleFunc("/header", checkHeaders)
 
 	log.Println("Start server...")
 	log.Println(http.ListenAndServe(":8080", nil))
 }
 
-func foo(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello"))
+func checkHeaders(w http.ResponseWriter, r *http.Request) {
+	var result string
+	result += fmt.Sprintln("RemoveAddr=", r.RemoteAddr)
+	for k, v := range r.Header {
+		result += fmt.Sprintln(k, "=", strings.Join(v, ","))
+	}
+	w.Write([]byte(result))
 }
 
 func loadMySQL(w http.ResponseWriter, r *http.Request) {
