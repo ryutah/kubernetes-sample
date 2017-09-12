@@ -27,6 +27,10 @@ spec:
               secretKeyRef:
                 name: cloudsql-db-credentials
                 key: password
+      - name: go-sample-nginx
+        image: ryutah/sample-gke-nginx
+        ports:
+          - containerPort: 80
       - name: cloudsql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.09
         command: ["/cloud_sql_proxy", "--dir=/cloudsql", "-instances=tryumph-test01-project:asia-east1:test-tryumphdb=tcp:3306", "-credential_file=/secrets/cloudsql/credentials.json"]
