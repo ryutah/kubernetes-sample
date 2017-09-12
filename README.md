@@ -27,14 +27,16 @@
   ```console
   # インスタンスレベルのアクセスのためのシークレットを作成
   $ kubectl create secret generic cloudsql-instance-credentials \
-                       --from-file=credentials.json=${CLOUD_SQL_SERVICE_ACCOUNT_KEY_FILE}
+        --from-file=credentials.json=${CLOUD_SQL_SERVICE_ACCOUNT_KEY_FILE}
   ```
 
 5. データベースレベルアクセスを設定する
   \# [インスタンスのアクセス制御について](https://cloud.google.com/sql/docs/mysql/instance-access-control?hl=ja)
   ```console
   # データベースアクセスに必要なシークレットを作成
-  $ kubectl create secret generic cloudsql-db-credentials --from-literal=username=${CLOUD_SQL_USER_NAME}
+  $ kubectl create secret generic cloudsql-db-credentials \
+        --from-literal=username=gke-app \
+        --from-literal=password=gke-app
   ```
 
 6. ポッド設定ファイルの設定
