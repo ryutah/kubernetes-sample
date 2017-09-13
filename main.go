@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", loadMySQL)
-	http.HandleFunc("/header", checkHeaders)
+	http.HandleFunc("/sqlsample", loadMySQL)
+	http.HandleFunc("/", checkHeaders)
 
 	log.Println("Start server...")
 	log.Println(http.ListenAndServe(":8080", nil))
@@ -77,5 +77,6 @@ func loadMySQL(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	log.Println(result)
 	w.Write([]byte(result))
 }
