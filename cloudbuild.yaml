@@ -9,4 +9,4 @@ steps:
     args: ["push", "gcr.io/$PROJECT_ID/sample-gke-nginx"]
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: "bash"
-    args: ["-c", "update_image.sh"]
+    args: ["-c", "sh", "update_image.sh"]
