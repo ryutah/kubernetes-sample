@@ -1,12 +1,11 @@
 # CloudSQL接続手順
 1. GKEクラスタを作成する  
   ```console
+  $ gcloud config configurations activate sandbox-hara
+
   $ gcloud container clusters create sample-gke \
       --network sample-gke \
       --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring.write","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append"
-
-    gcloud config configurations activate sandbox-hara
-    gcloud container clusters get-credentials sample-gke
   ```
 
   \# 必要なスコープはまだ未整理(一応この設定なら問題なし)

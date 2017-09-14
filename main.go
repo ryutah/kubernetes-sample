@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", loadMySQL)
-	http.HandleFunc("/header", checkHeaders)
+	http.HandleFunc("/", checkHeaders)
+	http.HandleFunc("/sql", loadMySQL)
 
 	log.Println("Start server...")
 	log.Println(http.ListenAndServe(":8080", nil))
