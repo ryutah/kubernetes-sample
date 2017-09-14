@@ -7,6 +7,7 @@ steps:
     args: ["push", "gcr.io/$PROJECT_ID/sample-gke"]
   - name: gcr.io/cloud-builders/docker
     args: ["push", "gcr.io/$PROJECT_ID/sample-gke-nginx"]
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: "bash"
-    args: ["-c", "sh", "update_image.sh"]
+  - name: gcr.io/sandbox-hara/kubectl
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'REVISION_ID=$REVISION_ID'
